@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-01 16:45:00
+ * @LastEditTime: 2022-03-07 10:36:37
  * @Description: 定义路由
  */
 
@@ -14,6 +14,7 @@ import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import Manage from './views/Manage.vue';
 import Home from './views/Home.vue';
+import HotEvents from './views/HotEvents.vue';
 
 import { Message } from 'element-ui';
 
@@ -45,7 +46,14 @@ const router = new VueRouter({
                 {
                     path: '',
                     name: 'home',
+                    meata:[],
                     component: Home,
+                },
+                {
+                    path:'/warning/hotEvents',
+                    name:'HotEvents',
+                    component:HotEvents,
+                    meta:['热点事件预警','热点事件展示'],
                 }
             ]
         },

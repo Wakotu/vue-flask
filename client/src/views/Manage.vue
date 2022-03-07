@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-01 17:26:45
+ * @LastEditTime: 2022-03-07 13:55:26
  * @Description: 管理页面
 -->
 
@@ -15,57 +15,55 @@
                     background-color="#324057"
                     text-color="rgb(191,203,217)"
                     router
-                    v-on:select="handleSelect"
                 >
-                    <el-menu-item index="manage">
+                    <el-menu-item index="/manage">
                         <i :style="iconStyle" class="el-icon-menu"></i>首页
                     </el-menu-item>
+                    <!-- 子菜单 -->
                     <el-submenu index="2">
                         <template slot="title">
-                            <i :style="iconStyle" class="el-icon-document"></i>数据管理
+                            <i :style="iconStyle" class="el-icon-warning"></i>热点事件预警
                         </template>
-                        <el-menu-item index="userList">用户列表</el-menu-item>
-                        <el-menu-item index="shopList">商家列表</el-menu-item>
-                        <el-menu-item index="foodList">食品列表</el-menu-item>
-                        <el-menu-item index="orderList">订单列表</el-menu-item>
-                        <el-menu-item index="adminList">管理员列表</el-menu-item>
+                        <el-menu-item index="/warning/hotEvents">热点事件展示</el-menu-item>
+                        <el-menu-item index="shopList">菜单项</el-menu-item>
+                        <el-menu-item index="foodList">菜单项</el-menu-item>
+                        <el-menu-item index="orderList">菜单项</el-menu-item>
+                        <el-menu-item index="adminList">菜单项</el-menu-item>
                     </el-submenu>
+                    <!-- 子菜单 -->
                     <el-submenu index="3">
                         <template slot="title">
-                            <i :style="iconStyle" class="el-icon-plus"></i>添加数据
+                            <i :style="iconStyle" class="el-icon-plus"></i>水军账号监管
                         </template>
-                        <el-menu-item index="addShop">添加商铺</el-menu-item>
-                        <el-menu-item index="addGoods">添加商品</el-menu-item>
+                        <el-menu-item index="addShop">菜单项</el-menu-item>
+                        <el-menu-item index="addGoods">菜单项</el-menu-item>
                     </el-submenu>
+                    <!-- 子菜单 -->
                     <el-submenu index="4">
                         <template slot="title">
-                            <i :style="iconStyle" class="el-icon-star-on"></i>图表
+                            <i :style="iconStyle" class="el-icon-star-on"></i>多级自动检测
                         </template>
-                        <el-menu-item index="visitor">用户分布</el-menu-item>
+                        <el-menu-item index="visitor">菜单项</el-menu-item>
                         <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                     </el-submenu>
-                    <el-submenu index="5">
-                        <template slot="title">
-                            <i :style="iconStyle" class="el-icon-edit"></i>编辑
-                        </template>
-                        <!-- <el-menu-item index="uploadImg">上传图片</el-menu-item> -->
-                        <el-menu-item index="vueEdit">文本编辑</el-menu-item>
-                    </el-submenu>
+                    <!-- 子菜单 -->
                     <el-submenu index="6">
                         <template slot="title">
-                            <i :style="iconStyle" class="el-icon-setting"></i>设置
+                            <i :style="iconStyle" class="el-icon-setting"></i>用户管理
                         </template>
-                        <el-menu-item index="adminSet">管理员设置</el-menu-item>
+                        <el-menu-item index="adminSet">菜单项</el-menu-item>
                         <!-- <el-menu-item index="sendMessage">发送通知</el-menu-item> -->
                     </el-submenu>
                     <el-submenu index="7">
                         <template slot="title">
-                            <i :style="iconStyle" class="el-icon-warning"></i>说明
+                            <i :style="iconStyle" class="el-icon-document"></i>子菜单
                         </template>
-                        <el-menu-item index="explain">说明</el-menu-item>
+                        <el-menu-item index="explain">菜单项</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
+
+            <!-- 具体页面 -->
             <el-col :span="20" style="height: 100%;overflow: auto;">
                 <keep-alive>
                     <router-view></router-view>
@@ -87,13 +85,13 @@ export default {
     },
     computed: {
         defaultActive: function () {
-            return this.$route.path.replace("/", "");
+            return this.$route.path;
         },
     },
     methods: {
-        handleSelect(key, path) {
-            console.log(key, path);
-        },
+        // handleSelect(key, path) {
+        //     console.log(key, path);
+        // },
     },
 };
 </script>
@@ -102,7 +100,6 @@ export default {
 .manage {
     width: 100%;
     height: 100%;
-    /* background-color: #232323; */
     background-color: white;
 }
 
@@ -110,6 +107,7 @@ export default {
     height: 100%;
     min-height: 500px;
     background-color: #324057;
+    overflow: auto;
 }
 
 .menu {
