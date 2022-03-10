@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:39:12
- * @LastEditTime: 2022-03-01 14:51:39
+ * @LastEditTime: 2022-03-08 13:34:46
  * @Description: App
 -->
 
@@ -41,8 +41,4 @@ body,
     min-height: 600px;
 }
 
-html,
-body {
-    overflow: hidden;
-}
 </style>
