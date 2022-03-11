@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-11 10:52:00
+ * @LastEditTime: 2022-03-11 11:07:50
  * @Description: 个人信息页面
 -->
 
@@ -25,6 +25,10 @@
                         >
                             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+
+                            <div class="tip">
+                                修改头像
+                            </div>
                         </el-upload>
 
                         <div class="right-side">
@@ -171,7 +175,7 @@ export default {
             isPhoneEdit: false,
             isPwdEdit: false,
 
-            imageUrl: "",
+            imageUrl: "/static/user.png",
             isEditBasic: false,
             // 编辑表单
             form: {
@@ -342,16 +346,18 @@ export default {
     border-radius: 50%;
 } */
 
+/* 头像上传控件样式 */
 .basic-info .header .avatar-uploader ::v-deep .el-upload {
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
+    /* border: 1px dashed #d9d9d9; */
+    position: relative;
+    border-radius: 50%;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
-.basic-info .header .avatar-uploader ::v-deep .el-upload:hover {
+/* .basic-info .header .avatar-uploader ::v-deep .el-upload:hover {
     border-color: #409eff;
-}
+} */
 .basic-info .header .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -363,8 +369,30 @@ export default {
 .basic-info .header .avatar {
     width: 100px;
     height: 100px;
+    border-radius: 50%;
     display: block;
 }
+
+.basic-info .header .tip{
+    position: absolute;
+    /* visibility: hidden; */
+    left: 0;
+    bottom: 0;
+    height: 0px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    color: white;
+    font-size: 12px;
+    line-height: 30px;
+    text-align: center;
+    
+    transition: height 0.2s;
+}
+
+.basic-info .header .avatar-uploader ::v-deep .el-upload:hover .tip{
+    height: 30px;
+}
+
 
 .header .right-side {
     margin-left: 30px;
