@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-03-10 10:56:55
+LastEditTime: 2022-03-11 11:14:42
 Description: 定义数据库模型
 '''
 
@@ -19,12 +19,21 @@ class User(db.Model):
     __tablename__='users'
 
     id=Column(String(32), default=gen_id, primary_key=True)
+    # 邮箱
     email=Column(String(20), unique=True)
+    # 手机号码
+    phone=Column(String(20), unique=True)
+    # 所属单位
+    unit=Column(String(50))
+    # 居住地址
+    address=Column(String(50))
+    # 个人介绍
+    intro=Column(String(500))
     username=Column(String(20), nullable=False)
     # pwd=Column(String(20), nullable=False)
     hash_pwd=Column(String(256), nullable=False)
     create_time=Column(DateTime, default=datetime.now)
-    avatar_url=Column(String(256))
+    avatar_url=Column(String(256),default='/static/user.png')
 
     def __repr__(self) -> str:
         return 'User '+self.username

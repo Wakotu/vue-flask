@@ -1,8 +1,9 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-11 11:07:50
+ * @LastEditTime: 2022-03-11 14:22:17
  * @Description: 个人信息页面
+ * @Todo: 无
 -->
 
 <template>
@@ -26,9 +27,7 @@
                             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 
-                            <div class="tip">
-                                修改头像
-                            </div>
+                            <div class="tip">修改头像</div>
                         </el-upload>
 
                         <div class="right-side">
@@ -90,12 +89,18 @@
                             <input
                                 ref="emailInput"
                                 type="text"
+                                v-model="secForm.email"
                                 class="value"
                                 v-show="isEmailEdit"
-                                v-on:blur="handleBlur('email',$event)"
                             />
 
-                            <span class="amend" v-on:click="edit('email')">修改</span>
+                            <span class="amend" v-on:click="edit('email')" v-show="!isEmailEdit">修改</span>
+                            <span class="amend" v-on:click="cancel('email')" v-show="isEmailEdit">取消</span>
+                            <span
+                                class="amend"
+                                v-on:click="submit('email',$event)"
+                                v-show="isEmailEdit"
+                            >提交</span>
                         </li>
                         <li>
                             <span class="key">手机绑定：</span>
@@ -104,12 +109,18 @@
                             <input
                                 ref="phoneInput"
                                 type="text"
+                                v-model="secForm.phone"
                                 class="value"
                                 v-show="isPhoneEdit"
-                                v-on:blur="handleBlur('phone',$event)"
                             />
 
-                            <span class="amend" v-on:click="edit('phone')">修改</span>
+                            <span class="amend" v-on:click="edit('phone')" v-show="!isPhoneEdit">修改</span>
+                            <span class="amend" v-on:click="cancel('phone')" v-show="isPhoneEdit">取消</span>
+                            <span
+                                class="amend"
+                                v-on:click="submit('phone',$event)"
+                                v-show="isPhoneEdit"
+                            >提交</span>
                         </li>
                         <li>
                             <span class="key">账户密码：</span>
@@ -118,46 +129,48 @@
                             <input
                                 ref="pwdInput"
                                 type="password"
-                                name
-                                id
+                                v-model="secForm.pwd"
                                 class="value"
                                 v-show="isPwdEdit"
-                                v-on:blur="handleBlur('pwd',$event)"
                             />
 
-                            <span class="amend" v-on:click="edit('pwd')">修改</span>
+                            <span class="amend" v-on:click="edit('pwd')" v-show="!isPwdEdit">修改</span>
+                            <span class="amend" v-on:click="cancel('pwd')" v-show="isPwdEdit">取消</span>
+                            <span class="amend" v-on:click="submit('pwd')" v-show="isPwdEdit">提交</span>
                         </li>
                     </ul>
                 </el-tab-pane>
             </el-tabs>
         </div>
 
-        <div class="overlay" v-show="isEditBasic">
-            <div class="popup">
-                <!-- 标题 -->
-                <h1 class="title">基本信息</h1>
-                <!-- 表单 -->
-                <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-                    <el-form-item label="用户名" prop="username">
-                        <el-input v-model.trim="form.username"></el-input>
-                    </el-form-item>
-                    <el-form-item label="所属单位" prop="unit">
-                        <el-input v-model.trim="form.unit"></el-input>
-                    </el-form-item>
-                    <el-form-item label="居住地址" prop="address">
-                        <el-input v-model.trim="form.address"></el-input>
-                    </el-form-item>
-                    <el-form-item label="个人介绍" prop="intro">
-                        <el-input type="textarea" v-model.trim="form.intro"></el-input>
-                    </el-form-item>
+        <transition name="overlay">
+            <div class="overlay" v-show="isEditBasic">
+                <div class="popup">
+                    <!-- 标题 -->
+                    <h1 class="title">基本信息</h1>
+                    <!-- 表单 -->
+                    <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input v-model.trim="form.username"></el-input>
+                        </el-form-item>
+                        <el-form-item label="所属单位" prop="unit">
+                            <el-input v-model.trim="form.unit"></el-input>
+                        </el-form-item>
+                        <el-form-item label="居住地址" prop="address">
+                            <el-input v-model.trim="form.address"></el-input>
+                        </el-form-item>
+                        <el-form-item label="个人介绍" prop="intro">
+                            <el-input type="textarea" v-model.trim="form.intro"></el-input>
+                        </el-form-item>
 
-                    <el-form-item>
-                        <el-button type="primary" @click="onSubmit('form')">修改</el-button>
-                        <el-button v-on:click="cancelEdit">取消</el-button>
-                    </el-form-item>
-                </el-form>
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit('form')">修改</el-button>
+                            <el-button v-on:click="cancelEdit">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -171,13 +184,10 @@ export default {
     data() {
         return {
             activeName: "basicInfo",
-            isEmailEdit: false,
-            isPhoneEdit: false,
-            isPwdEdit: false,
 
+            // 基本信息
             imageUrl: "/static/user.png",
             isEditBasic: false,
-            // 编辑表单
             form: {
                 // 这里要替换为全局user的对应值
                 username: "",
@@ -213,7 +223,24 @@ export default {
                         message: "请输入介绍信息",
                         trigger: "blur",
                     },
+                    {
+                        min: 1,
+                        max: 500,
+                        message: "个人介绍不得超过500字",
+                        trigger: "blur",
+                    },
                 ],
+            },
+
+            // 安全信息
+            isEmailEdit: false,
+            isPhoneEdit: false,
+            isPwdEdit: false,
+            secForm: {
+                // 这里要替换为全局user的对应属性
+                email: "",
+                phone: "",
+                pwd: "",
             },
         };
     },
@@ -225,7 +252,8 @@ export default {
             this.imageUrl = URL.createObjectURL(file.raw);
         },
         beforeAvatarUpload(file) {
-            const isJPG = file.type === "image/jpeg"|| file.type==="image/png";
+            const isJPG =
+                file.type === "image/jpeg" || file.type === "image/png";
             const isLt4M = file.size / 1024 / 1024 < 4;
 
             if (!isJPG) {
@@ -252,6 +280,7 @@ export default {
         cancelEdit() {
             this.isEditBasic = false;
         },
+
         // 安全信息页面修改
         edit(cmd) {
             switch (cmd) {
@@ -287,18 +316,66 @@ export default {
                 this.$refs.pwdInput.focus();
             });
         },
-        handleBlur(key, e) {
+        // 提交变更
+        submit(key) {
             // 获取输入框内容
-            const input = e.target.value;
-            if (input.trim() === "") {
+            var input;
+            switch (key) {
+                case "email":
+                    input = this.secForm.email;
+                    break;
+                case "phone":
+                    input = this.secForm.phone;
+                    break;
+                case "pwd":
+                    input = this.secForm.pwd;
+                    break;
+            }
+            // 检查输入框内容
+            if (input === "") {
                 alert("输入内容不能为空！");
                 return;
+            }
+            if (key === "email") {
+                const emailReg =
+                    /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                if (!emailReg.test(input)) {
+                    alert("邮箱格式不正确");
+                    return;
+                }
+            } else if (key === "pwd") {
+                const length = input.length;
+                if (length < 3 || length > 20) {
+                    alert("密码长度应在3-20之间");
+                    return;
+                }
+            } else if (key === "phone") {
+                const phoneReg =
+                    /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+                if (!phoneReg.test(input)) {
+                    alert("手机号码格式不正确");
+                    return;
+                }
             }
             // 更改vuex中的数据
 
             // 发送请求修改数据请求
 
             // 变回原状
+            switch (key) {
+                case "email":
+                    this.isEmailEdit = false;
+                    break;
+                case "phone":
+                    this.isPhoneEdit = false;
+                    break;
+                case "pwd":
+                    this.isPwdEdit = false;
+                    break;
+            }
+        },
+        // 取消编辑
+        cancel(key) {
             switch (key) {
                 case "email":
                     this.isEmailEdit = false;
@@ -373,26 +450,25 @@ export default {
     display: block;
 }
 
-.basic-info .header .tip{
+.basic-info .header .tip {
     position: absolute;
     /* visibility: hidden; */
     left: 0;
     bottom: 0;
     height: 0px;
     width: 100%;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     font-size: 12px;
     line-height: 30px;
     text-align: center;
-    
+
     transition: height 0.2s;
 }
 
-.basic-info .header .avatar-uploader ::v-deep .el-upload:hover .tip{
+.basic-info .header .avatar-uploader ::v-deep .el-upload:hover .tip {
     height: 30px;
 }
-
 
 .header .right-side {
     margin-left: 30px;
@@ -554,5 +630,23 @@ export default {
     line-height: 30px;
     text-align: center;
     margin-bottom: 20px;
+}
+
+/* 设置弹出层动画 */
+.overlay-enter-active{
+    animation: fade .2s reverse;
+}
+
+.overlay-leave-active{
+    animation: fade .2s;
+}
+
+@keyframes fade {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 </style>
