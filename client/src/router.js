@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-07 10:36:37
+ * @LastEditTime: 2022-03-10 14:18:28
  * @Description: 定义路由
  */
 
@@ -15,6 +15,8 @@ import Register from './views/Register.vue';
 import Manage from './views/Manage.vue';
 import Home from './views/Home.vue';
 import HotEvents from './views/HotEvents.vue';
+import UserInfo from './views/UserInfo.vue';
+import UserList from './views/UserList.vue';
 
 import { Message } from 'element-ui';
 
@@ -54,6 +56,18 @@ const router = new VueRouter({
                     name:'HotEvents',
                     component:HotEvents,
                     meta:['热点事件预警','热点事件展示'],
+                },
+                {
+                    path:'/user/userInfo',
+                    name:'userInfo',
+                    component:UserInfo,
+                    meta:['用户管理','个人信息']
+                },
+                {
+                    path:'/user/userList',
+                    name:'userList',
+                    component: UserList,
+                    meta:['用户管理','用户列表'],
                 }
             ]
         },

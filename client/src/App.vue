@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:39:12
- * @LastEditTime: 2022-03-08 13:34:46
+ * @LastEditTime: 2022-03-10 10:16:46
  * @Description: App
 -->
 
@@ -37,7 +37,7 @@ body,
 .app {
     width: 100%;
     height: 100%;
-    min-width: 1000px;
+    /* min-width: 1000px; */
     min-height: 600px;
 }
 

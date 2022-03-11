@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 10:21:02
- * @LastEditTime: 2022-02-27 19:07:58
+ * @LastEditTime: 2022-03-10 14:03:26
  * @Description: 登录页面
 -->
 
@@ -89,8 +89,8 @@ export default {
                                 type: 'success',
                                 message: '登录成功',
                             });
-                            // 跳转至 index
-                            this.$router.push('/index');
+                            // 跳转至 首页
+                            this.$router.push('/manage');
                         }else{
                             this.$message({
                                 showClose: true,

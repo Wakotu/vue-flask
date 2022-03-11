@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-02-27 16:06:23
+LastEditTime: 2022-03-10 10:56:55
 Description: 定义数据库模型
 '''
 
@@ -24,6 +24,7 @@ class User(db.Model):
     # pwd=Column(String(20), nullable=False)
     hash_pwd=Column(String(256), nullable=False)
     create_time=Column(DateTime, default=datetime.now)
+    avatar_url=Column(String(256))
 
     def __repr__(self) -> str:
         return 'User '+self.username
