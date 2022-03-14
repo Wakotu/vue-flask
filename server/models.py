@@ -1,18 +1,28 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-03-11 11:14:42
+LastEditTime: 2022-03-14 17:04:38
 Description: 定义数据库模型
 '''
 
 from datetime import datetime
-from sqlalchemy import Column, DateTime, String
+import enum
+from sqlalchemy import Column, DateTime, String, Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from exts import db
 
 def gen_id():
     return uuid4().hex
+
+class Gender(enum.Enum):
+    male=1
+    female=0
+
+class Identity(enum.Enum):
+    admin=1
+    user=0
+
 
 class User(db.Model):
     '''用户表'''
@@ -29,11 +39,18 @@ class User(db.Model):
     address=Column(String(50))
     # 个人介绍
     intro=Column(String(500))
+    # 用户名
     username=Column(String(20), nullable=False)
-    # pwd=Column(String(20), nullable=False)
+    # 密码（加密）
     hash_pwd=Column(String(256), nullable=False)
+    # 创建时间
     create_time=Column(DateTime, default=datetime.now)
+    # 头像url
     avatar_url=Column(String(256),default='/static/user.png')
+    # 性别
+    gender=Column(Enum(Gender), default=Gender.male)
+    # 身份
+    identity=Column(Enum(Identity), default=Identity.user)
 
     def __repr__(self) -> str:
         return 'User '+self.username

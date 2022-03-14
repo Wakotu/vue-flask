@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 14:02:02
- * @LastEditTime: 2022-02-27 17:55:04
+ * @LastEditTime: 2022-03-14 18:01:01
  * @Description: 注册页面
 -->
 <template>
@@ -40,6 +40,23 @@
                     <el-input v-model.trim="registerForm.pwd2" type="password"></el-input>
                 </el-form-item>
 
+                <!-- 性别 -->
+                <el-form-item label="性别" prop="gender">
+                    <el-radio-group v-model="registerForm.gender">
+                        <el-radio label="male">男</el-radio>
+                        <el-radio label="female">女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <!-- 身份 -->
+                <el-form-item label="身份" prop="identity">
+                    <el-radio-group v-model="registerForm.identity">
+                        <el-radio label="admin">管理员</el-radio>
+                        <el-radio label="user">用户</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <!-- 按钮 -->
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('registerForm')">注册</el-button>
                     <el-button type="reset" v-on:click="reset('registerForm')">清空</el-button>
@@ -62,12 +79,12 @@ export default {
     data() {
         // 注意要使用箭头函数
         const checkPwd2 = (rule, value, callback) => {
-            if(value==this.registerForm.pwd){
+            if (value == this.registerForm.pwd) {
                 callback();
-            }else{
-                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback(new Error("两次输入密码不一致!"));
             }
-        }
+        };
 
         return {
             registerForm: {
@@ -75,6 +92,8 @@ export default {
                 username: "",
                 pwd: "",
                 pwd2: "",
+                gender:'male',
+                identity:'admin',
             },
             rules: {
                 email: [
@@ -105,51 +124,64 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                pwd2:[
-                    { required: true, message: "请再次输入密码", tigger: "blur" },
-                    { validator: checkPwd2, trigger:'blur' },
+                pwd2: [
+                    {
+                        required: true,
+                        message: "请再次输入密码",
+                        tigger: "blur",
+                    },
+                    { validator: checkPwd2, trigger: "blur" },
+                ],
+                gender:[
+                    {
+                        required: true,
+                        message: "请选择性别",
+                        tigger: "blur",
+                    },
+                ],
+                identity:[
+                    {
+                        required: true,
+                        message: "请选择身份",
+                        tigger: "blur",
+                    },
                 ]
             },
         };
     },
     methods: {
-        onSubmit(formName){
+        onSubmit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     // console.log(this.registerForm);
                     // 发送请求进行注册
-                    let {pwd2, ...form}=this.registerForm;
+                    let { pwd2, ...form } = this.registerForm;
                     console.log(form);
-                    this.$axios.post('/api/users/register',form)
-                    .then(res => {
-                        // console.log(res)
-                        let data=res.data;
-                        if (data.code==200){
-                            this.$message({
-                                showClose: true,
-                                type: 'success',
-                                message: '注册成功',
-                            });
-                        this.$router.push('/login');
-                        }else{
-                            this.$message({
-                                showClose: true,
-                                type: 'error',
-                                message: '注册失败'
-                            });
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err); 
-                    })
+                    this.$axios
+                        .post("/api/users/register", form)
+                        .then((res) => {
+                            // console.log(res)
+                            let data = res.data;
+                            if (data.code == 200) {
+                                this.$message({
+                                    showClose: true,
+                                    type: "success",
+                                    message: "注册成功",
+                                });
+                                this.$router.push("/login");
+                            }
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
                 } else {
                     return false;
                 }
             });
         },
-        reset(formName){
+        reset(formName) {
             this.$refs[formName].resetFields();
-        }
+        },
     },
 };
 </script>
@@ -162,27 +194,26 @@ export default {
     background-size: 100% 100%;
 }
 
-.form-container{
+.form-container {
     width: 370px;
     position: absolute;
-    top: 10%;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
 }
 
-.form-container .form-title{
+.form-container .form-title {
     font-weight: bold;
     font-size: 26px;
     color: white;
 }
 
-.form-container .form{
+.form-container .form {
     background-color: white;
     margin-top: 20px;
     padding: 20px 40px 20px 10px;
     border-radius: 5px;
     box-shadow: 0px 5px 10px #cccc;
-
 }
 </style>

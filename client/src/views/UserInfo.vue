@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-11 14:22:17
+ * @LastEditTime: 2022-03-14 16:05:21
  * @Description: 个人信息页面
  * @Todo: 无
 -->
@@ -17,11 +17,14 @@
                         <!-- 添加用户头像 -->
                         <!-- <img src="/static/user.png" alt class="avatar" /> -->
 
+<!-- :on-success="handleAvatarSuccess" -->
                         <el-upload
                             class="avatar-uploader"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="/api/users/uploadAvatar"
+
+                            :http-request="uploadImg"
                             :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
+                            
                             :before-upload="beforeAvatarUpload"
                         >
                             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
@@ -33,7 +36,7 @@
                         <div class="right-side">
                             <div class="up">
                                 <div class="username">
-                                    <span class="name">用户名</span>
+                                    <span class="name">{{user.username}}</span>
                                     <i class="el-icon-male gender"></i>
                                 </div>
 
@@ -180,13 +183,20 @@ import { mapState } from "vuex";
 
 export default {
     name: "UserInfo",
-    components: { Header },
+    components: { Header, },
     data() {
         return {
             activeName: "basicInfo",
 
             // 基本信息
-            imageUrl: "/static/user.png",
+            userInfo:{
+                create_time:'',
+                identity:'',
+                unit:'',
+                address:'',
+                intro:'',
+            },
+            imageUrl: "",
             isEditBasic: false,
             form: {
                 // 这里要替换为全局user的对应值
@@ -248,9 +258,34 @@ export default {
         ...mapState(["user"]),
     },
     methods: {
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+        uploadImg(f){
+            // 创建form对象
+            let params=new FormData(); 
+            params.append('file', f.file);
+            let config={
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            };
+            this.$axios.post('/api/users/uploadAvatar',params, config)
+            .then(res => {
+                // console.log(res)
+                let data=res.data;
+                this.$message({
+                    showClose: true,
+                    type: 'success',
+                    message: data.info,
+                });
+
+                this.imageUrl=data.image_url;
+            })
+            .catch(err => {
+                console.error(err); 
+            })
         },
+        // handleAvatarSuccess(res, file) {
+        //     this.imageUrl = URL.createObjectURL(file.raw);
+        // },
         beforeAvatarUpload(file) {
             const isJPG =
                 file.type === "image/jpeg" || file.type === "image/png";
@@ -388,6 +423,13 @@ export default {
                     break;
             }
         },
+    },
+    mounted() {
+        // 头像url设置
+        this.imageUrl=this.user.avatar_url;
+
+        // 基本信息获取
+        
     },
 };
 </script>

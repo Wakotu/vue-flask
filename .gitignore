@@ -3,6 +3,7 @@ node_modules
 /client/dist
 __pycache__
 /server/migrations
+/server/static/avatars
 
 # local env files
 .env.local

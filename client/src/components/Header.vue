@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 16:47:03
- * @LastEditTime: 2022-03-10 19:20:39
+ * @LastEditTime: 2022-03-14 15:58:25
  * @Description: 头部区域
 -->
 
@@ -13,7 +13,7 @@
         </el-breadcrumb>
 
         <div class="user-info">
-            <img src alt class="avatar" />
+            <img :src="user.avatar_url" alt class="avatar" />
 
             <div class="welcome">
                 <el-dropdown @command="handleCommand">

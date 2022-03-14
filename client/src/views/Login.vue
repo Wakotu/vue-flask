@@ -91,12 +91,6 @@ export default {
                             });
                             // 跳转至 首页
                             this.$router.push('/manage');
-                        }else{
-                            this.$message({
-                                showClose: true,
-                                type: 'error',
-                                message: data.info,
-                            });
                         }
                     })
                     .catch(err => {

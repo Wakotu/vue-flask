@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 16:26:41
-LastEditTime: 2022-02-27 19:36:59
+LastEditTime: 2022-03-14 15:23:34
 Description: 装饰器
 '''
 
@@ -27,7 +27,7 @@ def login_required(func):
         try:
             # 解密token
             payload=jwt.decode(jwt=userToken, key=SECRET_KEY, algorithms=[HASH_ALGORITHM,])
-            print(payload)
+            # print(payload)
             email=payload.get('email')
             user=db.session.query(User).filter(User.email==email).first()
             if not user:
