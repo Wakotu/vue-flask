@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-16 11:24:34
+ * @LastEditTime: 2022-03-16 12:53:45
  * @Description: 个人信息页面
  * @Todo: 无
 -->
@@ -81,8 +81,16 @@
                             <div class="up">
                                 <div class="username">
                                     <span class="name">{{user.username}}</span>
-                                    <i v-show="userInfo.isMale" class="el-icon-male gender"></i>
-                                    <i v-show="!userInfo.isMale" class="el-icon-female gender"></i>
+                                    <i
+                                        v-show="userInfo.isMale"
+                                        class="el-icon-male gender"
+                                        style="color: skyblue;"
+                                    ></i>
+                                    <i
+                                        v-show="!userInfo.isMale"
+                                        class="el-icon-female gender"
+                                        style="color: pink;"
+                                    ></i>
                                 </div>
                             </div>
                             <div class="down">
@@ -105,7 +113,6 @@
                                 class="value"
                                 v-show="isEmailEdit"
                                 v-on:keyup.enter="secSubmit('email')"
-                                v-on:blur="cancel('email')"
                             />
 
                             <span class="amend" v-on:click="edit('email')" v-show="!isEmailEdit">修改</span>
@@ -127,8 +134,6 @@
                                 class="value"
                                 v-show="isPhoneEdit"
                                 v-on:keyup.enter="secSubmit('phone')"
-                                v-on:blur="cancel('phone')"
-
                             />
 
                             <span class="amend" v-on:click="edit('phone')" v-show="!isPhoneEdit">修改</span>
@@ -150,10 +155,9 @@
                                 class="value"
                                 v-show="isPwdEdit"
                                 v-on:keyup.enter="secSubmit('pwd')"
-                                v-on:blur="cancel('pwd')"
                             />
 
-                            <span class="amend" v-on:click="edit('pwd')" v-show="!isPwdEdit">修改</span>
+                            <span class="amend" v-on:click="validatePwd" v-show="!isPwdEdit">修改</span>
                             <span class="amend" v-on:click="cancel('pwd')" v-show="isPwdEdit">取消</span>
                             <span class="amend" v-on:click="secSubmit('pwd')" v-show="isPwdEdit">提交</span>
                         </li>
@@ -216,11 +220,11 @@ export default {
                 identity: "",
                 unit: "",
                 address: "",
-                phone:'',
+                phone: "",
                 intro: "",
                 email: "",
                 isMale: 1,
-                last_login:'',
+                last_login: "",
             },
             imageUrl: "",
             isEditBasic: false,
@@ -230,7 +234,7 @@ export default {
                 unit: "",
                 address: "",
                 intro: "",
-                gender:'',
+                gender: "",
             },
             rules: {
                 username: [
@@ -267,7 +271,7 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                gender:[
+                gender: [
                     {
                         required: true,
                         message: "请选择性别",
@@ -362,7 +366,7 @@ export default {
                             // 更新本地
                             const { username, ...basicInfo } = this.form;
                             this.userInfo = { ...this.userInfo, ...basicInfo };
-                            this.userInfo.isMale= this.form.gender=='male';
+                            this.userInfo.isMale = this.form.gender == "male";
                             // 更新vuex和本地存储
                             this.$store.commit("setUser", {
                                 ...this.user,
@@ -465,60 +469,69 @@ export default {
             // 更改vuex中的数据
 
             // 发送请求修改数据请求
-            if(key==='email'){
-                this.$axios.post('/api/users/updateEmail',{
-                    [key]:input,
-                })
-                .then(res => {
-                    let data=res.data;
-                    // 更新数据
-                    this.userInfo.email=input;
-                    this.$message({
-                        showClose: true,
-                        type: 'success',
-                        message: data.info,
+            if (key === "email") {
+                this.$axios
+                    .post("/api/users/updateEmail", {
+                        [key]: input,
+                    })
+                    .then((res) => {
+                        let data = res.data;
+                        // 更新数据
+                        this.userInfo.email = input;
+                        this.$message({
+                            showClose: true,
+                            type: "success",
+                            message: data.info,
+                        });
+                    })
+                    .catch((err) => {
+                        console.error(err);
                     });
-                })
-                .catch(err => {
-                    console.error(err); 
-                })
-            }
-            else if(key ==='pwd'){
-                this.$axios.post('/api/users/updatePwd',{
-                    [key]:input,
-                })
-                .then(res => {
-                    let data=res.data;
-                    // 更新数据
-                    this.$message({
-                        showClose: true,
-                        type: 'success',
-                        message: data.info,
+            } else if (key === "pwd") {
+                let pwdToken=localStorage.getItem('pwdToken');
+                if(!pwdToken){
+                    alert('未验证原密码');
+                    return;
+                }
+                localStorage.removeItem('pwdToken');
+
+                this.$axios
+                    .post("/api/users/updatePwd", {
+                        [key]: input,
+                        pwdToken,
+                    })
+                    .then((res) => {
+                        let data = res.data;
+                        // 更新数据
+                        this.$message({
+                            showClose: true,
+                            type: "success",
+                            message: data.info,
+                        });
+                        this.secForm.pwd = "";
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        this.secForm.pwd = "";
                     });
-                    this.secForm.pwd='';
-                })
-                .catch(err => {
-                    console.error(err); 
-                    this.secForm.pwd='';
-                })
-            }
-            else if(key ==='phone'){
-                this.$axios.post('/api/users/updatePhone',{
-                    [key]:input,
-                })
-                .then(res => {
-                    let data=res.data;
-                    // 更新数据
-                    this.userInfo.phone=input;
-                    this.$message({
-                        showClose: true,
-                        type: 'success',
-                        message: data.info,
+            } else if (key === "phone") {
+                this.$axios
+                    .post("/api/users/updatePhone", {
+                        [key]: input,
+                    })
+                    .then((res) => {
+                        let data = res.data;
+                        // 更新数据
+                        this.userInfo.phone = input;
+                        this.$message({
+                            showClose: true,
+                            type: "success",
+                            message: data.info,
+                        });
+                    })
+                    .catch((err) => {
+                        console.error(err);
                     });
-                })
-                .catch(err => {
-                    console.error(err); 
-                })
             }
 
             // 变回原状
@@ -548,6 +561,47 @@ export default {
                     break;
             }
         },
+
+        validatePwd() {
+            this.$prompt("请输入原始密码", "验证密码", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputValidator(input) {
+                    if (input.length < 3 || input.length > 20) return false;
+                    else return true;
+                },
+                inputErrorMessage: "密码长度必须在3到20之间",
+            })
+                .then(({ value }) => {
+                    this.$axios
+                        .post("/api/users/validatePwd", {
+                            pwd: value,
+                        })
+                        .then((res) => {
+                            // 存储token
+                            let pwdToken=res.data.pwd_token;
+                            localStorage.setItem('pwdToken',pwdToken);
+
+                            this.$message({
+                                type: "success",
+                                message: "验证成功",
+                            });
+                            this.isPwdEdit = true;
+                            this.$nextTick(() => {
+                                this.$refs.pwdInput.focus();
+                            });
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "取消输入",
+                    });
+                });
+        },
     },
     mounted() {
         // 头像url设置
@@ -565,10 +619,10 @@ export default {
                     this.form[key] = this.userInfo[key];
                 }
                 this.form.username = this.user.username;
-                this.form.gender=this.userInfo.isMale?'male':'female';
+                this.form.gender = this.userInfo.isMale ? "male" : "female";
                 // 更新安全信息表单
-                for(let key in this.secForm){
-                    this.secForm[key]=this.userInfo[key];
+                for (let key in this.secForm) {
+                    this.secForm[key] = this.userInfo[key];
                 }
             })
             .catch((err) => {

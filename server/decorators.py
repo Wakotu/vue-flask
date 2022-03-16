@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 16:26:41
-LastEditTime: 2022-03-14 19:43:40
+LastEditTime: 2022-03-16 12:36:16
 Description: 装饰器
 '''
 
@@ -25,13 +25,13 @@ def login_required(func):
             # 解密token
             payload=jwt.decode(jwt=userToken, key=SECRET_KEY, algorithms=[HASH_ALGORITHM,])
             # print(payload)
-            user_id=payload.get('id')
-            user=db.session.query(User).filter(User.id==user_id).first()
-            if not user:
-                return '无效的token', 401
         except Exception as e:
             print(e)
             return 'token已过期',401
         else:
+            user_id=payload.get('id')
+            user=db.session.query(User).filter(User.id==user_id).first()
+            if not user:
+                return '无效的token', 401
             return func(user, *args, **kwargs)
     return wrapper

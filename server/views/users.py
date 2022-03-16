@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 11:33:22
-LastEditTime: 2022-03-16 11:24:13
+LastEditTime: 2022-03-16 12:49:41
 Description: 用户视图
 Todo: 添加用户更信息接口
 '''
@@ -37,8 +37,6 @@ def test(user):
             'info': '请求成功',
         })
 
-# 注册
-
 
 @bp.route('/register', methods=['POST'])
 def register():
@@ -55,8 +53,6 @@ def register():
         'code': 200,
         'info': '注册成功',
     })
-
-# 登录
 
 
 @bp.route('/login', methods=['POST'])
@@ -87,7 +83,7 @@ def login():
             # print(userToken)
 
             # 更新登录时间
-            db.session.query(User).filter(User.id==user.id).update({
+            db.session.query(User).filter(User.id == user.id).update({
                 'last_login': datetime.now()
             })
             db.session.commit()
@@ -130,8 +126,6 @@ def update_basic(user):
         'info': '更新成功',
     })
 
-# 更新邮箱
-
 
 @bp.route('/updateEmail', methods=['POST'])
 @login_required
@@ -158,8 +152,6 @@ def update_email(user):
         'code': 200,
         'info': '更新成功'
     })
-
-# 更新手机号码
 
 
 @bp.route('/updatePhone', methods=['POST'])
@@ -188,20 +180,30 @@ def update_phone(user):
         'info': '更新成功'
     })
 
-# 更新密码
-
 
 @bp.route('/updatePwd', methods=['POST'])
 @login_required
 def update_pwd(user):
-    pwd = request.get_json().get('pwd')
+    form=request.get_json()
+    pwd = form.get('pwd')
+    pwd_token= form.get('pwdToken')
     if not pwd:
         return '缺少必填字段', 404
+
+    if not pwd_token:
+        return '未验证原密码', 404
+    
+    # 判断pwdToken合法性
+    try:
+        jwt.decode(jwt=pwd_token, algorithms=[HASH_ALGORITHM,], key=SECRET_KEY)
+    except Exception as e:
+        print(e)
+        return 'token已失效', 401
 
     # 更新
     try:
         db.session.query(User).filter(User.id == user.id).update({
-            'hash_pwd':generate_password_hash(pwd),
+            'hash_pwd': generate_password_hash(pwd),
         })
         db.session.commit()
     except Exception as e:
@@ -212,8 +214,6 @@ def update_pwd(user):
         'code': 200,
         'info': '更新成功',
     })
-
-# 头像上传
 
 
 @bp.route('/uploadAvatar', methods=['POST'])
@@ -267,3 +267,32 @@ def get_userinfo(user):
             'last_login': user.last_login.strftime('%Y-%m-%d %H:%M:%S'),
         }
     })
+
+
+@bp.route('/validatePwd', methods=['POST'])
+@login_required
+def validate_pwd(user):
+    form = request.get_json()
+    pwd = form.get('pwd')
+    if not pwd:
+        return '缺少必填字段', 404
+
+    if user.check_pwd_hash(pwd):
+        # 返回token
+        now = datetime.utcnow()
+        pwd_token = jwt.encode(
+            {
+                # 'pwd': pwd,
+                'iat': now,
+                'exp': now+timedelta(minutes=3),
+            },
+            key=SECRET_KEY,
+            algorithm=HASH_ALGORITHM
+        )
+
+        return jsonify({
+            'code': 200,
+            'pwd_token': pwd_token,
+        })
+    else:
+        return '密码错误', 404
