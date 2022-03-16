@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-03-14 17:04:38
+LastEditTime: 2022-03-16 11:15:49
 Description: 定义数据库模型
 '''
 
@@ -45,12 +45,14 @@ class User(db.Model):
     hash_pwd=Column(String(256), nullable=False)
     # 创建时间
     create_time=Column(DateTime, default=datetime.now)
+    # 上次登录时间
+    last_login=Column(DateTime)
     # 头像url
     avatar_url=Column(String(256),default='/static/user.png')
     # 性别
-    gender=Column(Enum(Gender), default=Gender.male)
+    gender=Column(Enum(Gender), default=Gender.male, nullable=False)
     # 身份
-    identity=Column(Enum(Identity), default=Identity.user)
+    identity=Column(Enum(Identity), default=Identity.user, nullable=False)
 
     def __repr__(self) -> str:
         return 'User '+self.username

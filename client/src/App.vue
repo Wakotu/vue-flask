@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:39:12
- * @LastEditTime: 2022-03-10 10:16:46
+ * @LastEditTime: 2022-03-16 09:39:37
  * @Description: App
 -->
 
@@ -22,8 +22,12 @@ export default {
     created() {
         // 判断是否登录
         const userToken = localStorage.getItem("userToken");
+        const avatar_url=localStorage.getItem('avatar_url');
+        const username=localStorage.getItem('username');
         if (userToken) {
-            const user = jwtDecode(userToken);
+            let user = jwtDecode(userToken);
+            user.avatar_url=avatar_url;
+            user.username=username;
             // 同步vuex状态
             this.$store.dispatch("setLoginState", user);
         }

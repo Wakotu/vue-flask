@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 10:21:02
- * @LastEditTime: 2022-03-10 14:03:26
+ * @LastEditTime: 2022-03-16 09:39:10
  * @Description: 登录页面
 -->
 
@@ -78,10 +78,16 @@ export default {
                         let data=res.data;
                         if(data.code==200){
                             const userToken=data.userToken;
+                            const avatar_url=data.avatar_url;
+                            const username=data.username;
                             // 存储
                             localStorage.setItem('userToken',userToken);
+                            localStorage.setItem('avatar_url',avatar_url);
+                            localStorage.setItem('username',username);
                             // 解析token, 同步至state
-                            const user=jwtDecode(userToken);
+                            let user=jwtDecode(userToken);
+                            user.avatar_url=avatar_url;
+                            user.username=username;
                             this.$store.dispatch('setLoginState',user);
 
                             this.$message({

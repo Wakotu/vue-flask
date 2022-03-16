@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 16:47:03
- * @LastEditTime: 2022-03-14 15:58:25
+ * @LastEditTime: 2022-03-16 09:18:07
  * @Description: 头部区域
 -->
 
@@ -66,6 +66,7 @@ export default {
         logout(){
             // 清除登录状态
             localStorage.removeItem('userToken');
+            localStorage.removeItem('avatarUrl');
             this.$store.dispatch('clearLoginState');
 
             // 返回登录页面
