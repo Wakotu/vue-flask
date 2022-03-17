@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 10:21:02
- * @LastEditTime: 2022-03-16 09:39:10
+ * @LastEditTime: 2022-03-17 15:11:18
  * @Description: 登录页面
 -->
 
@@ -80,10 +80,12 @@ export default {
                             const userToken=data.userToken;
                             const avatar_url=data.avatar_url;
                             const username=data.username;
+                            const isAdmin=data.isAdmin;
                             // 存储
                             localStorage.setItem('userToken',userToken);
                             localStorage.setItem('avatar_url',avatar_url);
                             localStorage.setItem('username',username);
+                            localStorage.setItem('isAdmin', isAdmin);
                             // 解析token, 同步至state
                             let user=jwtDecode(userToken);
                             user.avatar_url=avatar_url;

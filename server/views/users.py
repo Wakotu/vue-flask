@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 11:33:22
-LastEditTime: 2022-03-16 12:49:41
+LastEditTime: 2022-03-17 22:28:49
 Description: 用户视图
 Todo: 添加用户更信息接口
 '''
@@ -73,7 +73,6 @@ def login():
             userToken = jwt.encode(
                 {
                     'id': user.id,
-                    'isAdmin': user.identity.value,
                     'iat': now,
                     'exp': now+timedelta(minutes=JWT_EXPIRY),
                 },
@@ -93,6 +92,7 @@ def login():
                 'userToken': userToken,
                 'avatar_url': user.avatar_url,
                 'username': user.username,
+                'isAdmin': user.identity.value,
             })
         else:
             return '密码不正确', 404
@@ -184,18 +184,19 @@ def update_phone(user):
 @bp.route('/updatePwd', methods=['POST'])
 @login_required
 def update_pwd(user):
-    form=request.get_json()
+    form = request.get_json()
     pwd = form.get('pwd')
-    pwd_token= form.get('pwdToken')
+    pwd_token = form.get('pwdToken')
     if not pwd:
         return '缺少必填字段', 404
 
     if not pwd_token:
         return '未验证原密码', 404
-    
+
     # 判断pwdToken合法性
     try:
-        jwt.decode(jwt=pwd_token, algorithms=[HASH_ALGORITHM,], key=SECRET_KEY)
+        jwt.decode(jwt=pwd_token, algorithms=[
+                   HASH_ALGORITHM, ], key=SECRET_KEY)
     except Exception as e:
         print(e)
         return 'token已失效', 401
@@ -296,3 +297,104 @@ def validate_pwd(user):
         })
     else:
         return '密码错误', 404
+
+
+@bp.route('/getAllUsers', methods=['POST'])
+@login_required
+def get_all_users(user):
+    # 判断用户身份
+    if not user.identity.value:
+        return '您的权限不足', 402
+
+    users = db.session.query(User.id, User.email, User.username, User.phone, User.gender, User.identity, User.unit, User.address).all()
+    user_list=[]
+    for user in users:
+        user_item={
+            'id':user.id,
+            'email':user.email,
+            'username':user.username,
+            'phone':user.phone,
+            'gender':'男' if user.gender.value else '女',
+            'identity':'管理员' if user.identity.value else '普通用户',
+            'unit':user.unit,
+            'address':user.address,
+        }
+        user_list.append(user_item)
+    return jsonify({
+        'code':200,
+        'users':user_list,
+    })
+
+@bp.route('/addUser',methods=['POST'])
+@login_required
+def add_user(user):
+    form=request.get_json().get('form')
+    # 判断邮箱和手机重复性
+    email=form.get('email')
+    phone=form.get('phone')
+
+    res=db.session.query(User).filter(User.email==email).first()
+    if res:
+        return '邮箱已存在', 404
+    
+    res=db.session.query(User).filter(User.phone==phone).first()
+    if res:
+        return '手机号已存在', 404
+    
+    try:
+        new_user=User(**form)
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return '数据库更新失败', 404
+
+    return jsonify({
+        'code':200,
+        'info':'添加成功',
+    })
+
+@bp.route('/editUser',methods=['POST'])
+@login_required
+def edit_user(user):
+    if not user.identity.value:
+        return '您的权限不足', 402
+    params=request.get_json()
+    form=params.get('form')
+    user_id=params.get('user_id')
+    
+    form['hash_pwd']=generate_password_hash(form['pwd'])
+    del form['pwd']
+
+    try:
+        db.session.query(User).filter(User.id==user_id).update(form)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return '用户不存在', 404
+    
+    return jsonify({
+        'code':200,
+        'info':'更新成功',
+    })
+
+@bp.route('/removeUser',methods=['POST'])
+@login_required
+def remove_user(user):
+    form=request.get_json()
+    user_id=form.get('user_id')
+    
+    if not user_id:
+        return '缺少必填字段', 404
+    
+    try:
+        db.session.query(User).filter(User.id==user_id).delete()
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return '用户不存在', 404
+
+    return jsonify({
+        'code':200,
+        'info':'删除成功',
+    })

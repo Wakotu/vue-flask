@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-27 09:19:28
- * @LastEditTime: 2022-03-14 20:47:21
+ * @LastEditTime: 2022-03-17 09:56:34
  * @Description: 配置axios拦截器
  */
 
@@ -79,6 +79,9 @@ axios.interceptors.response.use(response => {
     if(status===401){
         router.push('/login');
     }
+    if(status===402){{
+        router.go(-1);
+    }}
 
     return Promise.reject(error);
 });

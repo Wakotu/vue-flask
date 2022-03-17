@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-16 12:53:45
+ * @LastEditTime: 2022-03-17 09:09:54
  * @Description: 个人信息页面
  * @Todo: 无
 -->
@@ -641,7 +641,11 @@ export default {
 
 .user-profile {
     width: 800px;
+    padding: 30px;
     margin: 0 auto;
+    margin-top: 30px;
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
+    border-radius: 10px;
 }
 
 .basic-info {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-10 14:31:40
+ * @LastEditTime: 2022-03-17 14:30:12
  * @Description: 管理页面
 -->
 
@@ -66,9 +66,10 @@
 
             <!-- 具体页面 -->
             <el-col :span="20" style="height: 100%;overflow: auto;">
-                <keep-alive>
+                <!-- <keep-alive>
                     <router-view></router-view>
-                </keep-alive>
+                </keep-alive> -->
+                <router-view></router-view>
             </el-col>
         </el-row>
     </div>
