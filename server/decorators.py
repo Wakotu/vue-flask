@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 16:26:41
-LastEditTime: 2022-03-16 12:36:16
+LastEditTime: 2022-03-20 10:06:14
 Description: 装饰器
 '''
 
@@ -20,6 +20,11 @@ def login_required(func):
         userToken=request.headers.get('Authorization')
         if not userToken:
             return '您尚未登陆',401
+        
+        # 检查referer
+        referer=request.headers.get('Referer')
+        if referer != 'http://localhost:8080/':
+            return '禁止CSRF!',403
         
         try:
             # 解密token

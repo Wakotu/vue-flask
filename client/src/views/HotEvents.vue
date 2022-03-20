@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-07 10:32:50
- * @LastEditTime: 2022-03-10 14:19:44
+ * @LastEditTime: 2022-03-20 16:00:25
  * @Description: 热点事件展示
 -->
 <template>
@@ -295,6 +295,8 @@ export default {
     font-size: 12px;
     position: relative;
 }
+
+
 .event-list li::after{
     content: '';
     position: absolute;
@@ -342,6 +344,11 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.event-list li .text:hover{
+    color: #409EFF;
 }
 
 .event-list li .heat{

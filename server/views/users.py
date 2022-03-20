@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 11:33:22
-LastEditTime: 2022-03-17 22:28:49
+LastEditTime: 2022-03-20 15:54:01
 Description: 用户视图
 Todo: 添加用户更信息接口
 '''
@@ -363,8 +363,11 @@ def edit_user(user):
     form=params.get('form')
     user_id=params.get('user_id')
     
-    form['hash_pwd']=generate_password_hash(form['pwd'])
-    del form['pwd']
+    pwd=form.get('pwd')
+    if pwd:
+        if pwd!='':
+            form['hash_pwd']=generate_password_hash(pwd)
+        del form['pwd']
 
     try:
         db.session.query(User).filter(User.id==user_id).update(form)

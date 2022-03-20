@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-17 19:52:26
- * @LastEditTime: 2022-03-17 22:11:06
+ * @LastEditTime: 2022-03-20 15:50:25
  * @Description: 用户管理对话框
  * @Todo: 
 -->
@@ -66,7 +66,7 @@ export default {
                     },
                 ],
                 pwd:[
-                    { required: true, message: "请输入密码", trigger: "blur" },
+                    // { required: true, message: "请输入密码", trigger: "blur" },
                     { min: 3, max: 20, message: "密码长度必须在3到20之间", trigger: "blur" },
                 ],
                 username:[
