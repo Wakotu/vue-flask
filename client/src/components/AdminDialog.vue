@@ -1,14 +1,14 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-17 19:52:26
- * @LastEditTime: 2022-03-20 15:50:25
+ * @LastEditTime: 2022-03-21 09:45:52
  * @Description: 用户管理对话框
  * @Todo: 
 -->
 
 <template>
     <div class="admin-dialog">
-        <el-dialog :title="dialog.title" :visible.sync="dialog.visible" width="30%">
+        <el-dialog :title="dialog.title" :visible.sync="dialog.visible" width="30%" top="5vh">
             <el-form
                 :model="dialog.form"
                 ref="form"
@@ -128,5 +128,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 </style>

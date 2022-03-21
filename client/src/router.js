@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-17 22:18:50
+ * @LastEditTime: 2022-03-20 17:59:18
  * @Description: 定义路由
  */
 
@@ -17,6 +17,7 @@ import Home from './views/Home.vue';
 import HotEvents from './views/HotEvents.vue';
 import UserInfo from './views/UserInfo.vue';
 import UserList from './views/UserList.vue';
+import TaskManage from './views/TaskManage.vue';
 // import store from './store';
 
 import { Message } from 'element-ui';
@@ -69,6 +70,12 @@ const router = new VueRouter({
                     name: 'userList',
                     component: UserList,
                     meta: ['用户管理', '用户列表'],
+                },
+                {
+                    path:'/system/taskManage',
+                    name:'taskManage',
+                    component:TaskManage,
+                    meta:['系统管理','任务配置'],
                 }
             ]
         },

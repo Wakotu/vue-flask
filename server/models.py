@@ -1,13 +1,14 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-03-16 11:15:49
+LastEditTime: 2022-03-21 13:37:10
 Description: 定义数据库模型
 '''
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import enum
-from sqlalchemy import Column, DateTime, String, Enum
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Enum
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from exts import db
@@ -23,6 +24,13 @@ class Identity(enum.Enum):
     admin=1
     user=0
 
+class Section(enum.Enum):
+    spider=0
+    analysis=1
+
+class Status(enum.Enum):
+    run=1
+    stop=0
 
 class User(db.Model):
     '''用户表'''
@@ -68,3 +76,40 @@ class User(db.Model):
     # 检查密码
     def check_pwd_hash(self,pwd):
         return check_password_hash(self.hash_pwd, pwd)
+
+
+class Task(db.Model):
+    __tablename__='tasks'
+
+    id=Column(String(32), default=gen_id, primary_key=True)
+    name=Column(String(100),nullable=False, unique=True)
+    keyword=Column(String(100), nullable=False)
+    create_time=Column(DateTime, default=datetime.now())
+    # 采集时间间隔，单位：分钟
+    interval=Column(Integer, nullable=False)
+    # 结束时间
+    end_time=Column(DateTime, nullable=False)
+
+    @property
+    def duration(self):
+        return (self.end_time-self.create_time).hours
+    
+    @duration.setter
+    def duration(self, val):
+        if not self.create_time:
+            self.create_time=datetime.now()
+        self.end_time=self.create_time+timedelta(hours=val)
+
+    def __repr__(self) -> str:
+        return self.name
+    
+class TaskStatus(db.Model):
+    __tablename__='task_status'
+
+    id=Column(String(32), default=gen_id, primary_key=True)
+    task_id=Column(String(32), ForeignKey('tasks.id'), nullable=False)
+    section=Column(Enum(Section), nullable=False)
+    status=Column(Enum(Status), nullable=False)
+
+    task=relationship('Task', backref='statuses')
+    

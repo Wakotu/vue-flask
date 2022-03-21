@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-17 14:30:12
+ * @LastEditTime: 2022-03-20 17:56:22
  * @Description: 管理页面
 -->
 
@@ -26,14 +26,15 @@
                         <!-- 子菜单 -->
                         <el-submenu index="2">
                             <template slot="title">
-                                <i :style="iconStyle" class="el-icon-warning"></i>热点事件预警
+                                <i :style="iconStyle" class="el-icon-warning"></i>热点事件
                             </template>
                             <el-menu-item index="/warning/hotEvents">热点事件展示</el-menu-item>
+                            <el-menu-item index="/warning/eventAnalysis">热点事件分析</el-menu-item>
                         </el-submenu>
                         <!-- 子菜单 -->
                         <el-submenu index="3">
                             <template slot="title">
-                                <i :style="iconStyle" class="el-icon-plus"></i>水军账号监管
+                                <i :style="iconStyle" class="el-icon-plus"></i>单体水军检测
                             </template>
                             <el-menu-item index="addShop">菜单项</el-menu-item>
                             <el-menu-item index="addGoods">菜单项</el-menu-item>
@@ -41,9 +42,11 @@
                         <!-- 子菜单 -->
                         <el-submenu index="4">
                             <template slot="title">
-                                <i :style="iconStyle" class="el-icon-star-on"></i>多级自动检测
+                                <i :style="iconStyle" class="el-icon-star-on"></i>水军群体展示
                             </template>
-                            <el-menu-item index="visitor">菜单项</el-menu-item>
+                            <el-menu-item index="visitor">水军群体列表</el-menu-item>
+                            <el-menu-item index="visitor">水军群体画像</el-menu-item>
+                            <el-menu-item index="visitor">水军群体概览</el-menu-item>
                             <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                         </el-submenu>
                         <!-- 子菜单 -->
@@ -56,9 +59,9 @@
                         </el-submenu>
                         <el-submenu index="7">
                             <template slot="title">
-                                <i :style="iconStyle" class="el-icon-document"></i>子菜单
+                                <i :style="iconStyle" class="el-icon-document"></i>系统管理
                             </template>
-                            <el-menu-item index="explain">菜单项</el-menu-item>
+                            <el-menu-item index="/system/taskManage">任务配置</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </div>

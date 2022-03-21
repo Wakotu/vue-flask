@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:17:33
- * @LastEditTime: 2022-03-20 15:57:00
+ * @LastEditTime: 2022-03-21 13:24:27
  * @Description: 用户列表
  * @Todo: 实现添加功能
 -->
@@ -172,6 +172,7 @@ export default {
                             if(x===y) continue;
                             return x-y;
                         }
+                        return 0;
                     });
                     this.setPagination(this.allData);
                 })
@@ -212,4 +213,5 @@ export default {
     float: right;
     margin-right: 50px;
 }
+
 </style>

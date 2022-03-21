@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-27 16:26:41
-LastEditTime: 2022-03-20 10:06:14
+LastEditTime: 2022-03-21 11:49:18
 Description: 装饰器
 '''
 
@@ -23,7 +23,7 @@ def login_required(func):
         
         # 检查referer
         referer=request.headers.get('Referer')
-        if referer != 'http://localhost:8080/':
+        if not referer.startswith('http://localhost:8080/'):
             return '禁止CSRF!',403
         
         try:
