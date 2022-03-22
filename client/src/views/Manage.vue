@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-20 17:56:22
+ * @LastEditTime: 2022-03-22 09:47:30
  * @Description: 管理页面
 -->
 
@@ -62,6 +62,8 @@
                                 <i :style="iconStyle" class="el-icon-document"></i>系统管理
                             </template>
                             <el-menu-item index="/system/taskManage">任务配置</el-menu-item>
+                            <el-menu-item index="/system/spiderManage">爬虫程序监测</el-menu-item>
+                            <el-menu-item index="/system/analysisManage">分析程序监测</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </div>

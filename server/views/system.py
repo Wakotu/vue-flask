@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-03-21 10:35:47
-LastEditTime: 2022-03-21 14:01:28
+LastEditTime: 2022-03-22 10:34:54
 Description: 系统管理路由
 Todo: 
 '''
@@ -14,6 +14,7 @@ from models import Task, TaskStatus, Section, Status
 bp = Blueprint('system', __name__, url_prefix='/api/system')
 
 
+# 任务管理部分
 @bp.route('/getAllTask', methods=['POST'])
 @login_required
 def get_all_task(user):
@@ -90,4 +91,108 @@ def remove_task(user):
     return jsonify({
         'code':200,
         'info':'删除成功',
+    })
+
+# 爬虫监测部分
+@bp.route('/getAllStatus',methods=['POST'])
+@login_required
+def get_spider_status(user):
+    status_list=[]
+    section=request.get_json().get('section')
+    
+    if section=='spider':
+        try:
+            spider_statuses=db.session.query(TaskStatus).filter(TaskStatus.section==Section.spider).all()
+        except Exception as e:
+            print(e)
+            return '数据库查询失败',404
+        for status in spider_statuses:
+            status_item={
+                'id':status.id,
+                'keyword':status.task.keyword,
+                'name':status.task.name,
+                'interval':status.task.interval,
+                'end_time':status.task.end_time.strftime(r'%Y-%m-%d %H:%M:%S'),
+                'status': status.status.value,
+            }
+            status_list.append(status_item)
+    elif section=='analysis':
+        try:
+            analysis_statuses=db.session.query(TaskStatus).filter(TaskStatus.section==Section.analysis).all()
+        except Exception as e:
+            print(e)
+            return '数据库查询失败'
+        for status in analysis_statuses:
+            status_item={
+                'id':status.id,
+                'name':status.task.name,
+                'create_time':status.task.create_time.strftime(r'%Y-%m-%d %H:%M:%S'),
+                'status':status.status.value,
+            }
+            status_list.append(status_item)
+    
+    return jsonify({
+        'code':200,
+        'status_list':status_list,
+    })
+
+
+@bp.route('/editStatus',methods=['POST'])
+@login_required
+def edit_status(user):
+    form=request.get_json()
+    section=form.pop('section')
+    if not section:
+        return '缺少必填字段',404
+    id=form.pop('id')
+    if not id:
+        return '缺少必填字段', 404
+
+    if section=='spider':
+        status=form.pop('status')
+        if not status:
+            return '缺少必填字段', 404
+        try:
+            # 更新状态
+            task_status = db.session.query(TaskStatus).filter(TaskStatus.id==id)
+            task_status.update({
+                'status':status,
+            })
+            # 找到对应任务，更新其他
+            task_id=task_status.first().task.id
+            db.session.query(Task).filter(Task.id==task_id).update(form)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return '数据库更新失败',404
+    elif section=='analysis':
+        # 直接更新状态
+        try:
+            db.session.query(TaskStatus).filter(TaskStatus.id==id).update(form)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return '数据库更新失败',404
+
+    return jsonify({
+        'code':200,
+        'info':'更新成功',
+    })
+
+@bp.route('/removeStatus',methods=['POST'])
+@login_required
+def remove_spider_status(user):
+    form=request.get_json()
+    id=form.get('id')
+    
+    try:
+        db.session.query(TaskStatus).filter(TaskStatus.id==id).delete()
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return '数据库更新失败', 404
+    
+    return jsonify({
+        'code':200,
+        'info':'删除成功'
     })

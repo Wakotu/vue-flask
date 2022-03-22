@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-20 17:59:18
+ * @LastEditTime: 2022-03-22 09:47:02
  * @Description: 定义路由
  */
 
@@ -18,6 +18,8 @@ import HotEvents from './views/HotEvents.vue';
 import UserInfo from './views/UserInfo.vue';
 import UserList from './views/UserList.vue';
 import TaskManage from './views/TaskManage.vue';
+import SpiderManage from './views/SpiderManage.vue';
+import AnalysisManage from './views/AnalysisManage.vue';
 // import store from './store';
 
 import { Message } from 'element-ui';
@@ -76,6 +78,18 @@ const router = new VueRouter({
                     name:'taskManage',
                     component:TaskManage,
                     meta:['系统管理','任务配置'],
+                },
+                {
+                    path:'/system/spiderManage',
+                    name:'spiderManage',
+                    component: SpiderManage,
+                    meta:['系统管理','爬虫程序监测'],
+                },
+                {
+                    path:'/system/analysisManage',
+                    name:'analysisManage',
+                    component: AnalysisManage,
+                    meta:['系统管理','分析程序监测'],
                 }
             ]
         },
