@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-22 09:47:02
+ * @LastEditTime: 2022-03-23 09:06:07
  * @Description: 定义路由
  */
 
@@ -20,6 +20,7 @@ import UserList from './views/UserList.vue';
 import TaskManage from './views/TaskManage.vue';
 import SpiderManage from './views/SpiderManage.vue';
 import AnalysisManage from './views/AnalysisManage.vue';
+import UserReco from './views/UserReco.vue';
 // import store from './store';
 
 import { Message } from 'element-ui';
@@ -90,7 +91,13 @@ const router = new VueRouter({
                     name:'analysisManage',
                     component: AnalysisManage,
                     meta:['系统管理','分析程序监测'],
-                }
+                },
+                {
+                    path:'/single/userReco',
+                    name:'userReco',
+                    component: UserReco,
+                    meta:['单体水军检测', '特定用户识别'],
+                },
             ]
         },
         // 404，要放在最后

@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:39:12
- * @LastEditTime: 2022-03-16 09:39:37
+ * @LastEditTime: 2022-03-23 10:17:57
  * @Description: App
 -->
 
@@ -45,4 +45,10 @@ body,
     min-height: 600px;
 }
 
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
 </style>

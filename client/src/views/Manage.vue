@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-22 09:47:30
+ * @LastEditTime: 2022-03-23 09:05:22
  * @Description: 管理页面
 -->
 
@@ -10,7 +10,8 @@
         <el-row style="height: 100%;">
             <el-col :span="4" class="sidebar">
                 <div class="logo-container">
-                    这里有个<b>logo</b>
+                    <!-- 这里有个<b>logo</b> -->
+                    <img class="logo" src="../assets/ideoloc.png" alt="">
                 </div>
                 <div class="menu-container">
                     <el-menu
@@ -36,8 +37,9 @@
                             <template slot="title">
                                 <i :style="iconStyle" class="el-icon-plus"></i>单体水军检测
                             </template>
-                            <el-menu-item index="addShop">菜单项</el-menu-item>
-                            <el-menu-item index="addGoods">菜单项</el-menu-item>
+                            <el-menu-item index="/single/userReco">特定用户识别</el-menu-item>
+                            <el-menu-item index="addGoods">水军用户列表</el-menu-item>
+                            <el-menu-item index="addGoods">水军用户画像</el-menu-item>
                         </el-submenu>
                         <!-- 子菜单 -->
                         <el-submenu index="4">
@@ -121,6 +123,13 @@ export default {
     line-height: 64px;
     font-size: 25px;
     text-align: center;
+    overflow: hidden;
+    /* position: relative; */
+}
+ 
+.logo-container .logo{
+    width: 90%;
+    height: 100%;
 }
 
 .menu-container {
