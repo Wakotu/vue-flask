@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:13:01
- * @LastEditTime: 2022-03-17 09:09:54
+ * @LastEditTime: 2022-03-23 15:06:15
  * @Description: 个人信息页面
  * @Todo: 无
 -->
@@ -204,7 +204,7 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import Header from "../../components/Header.vue";
 import { mapState } from "vuex";
 
 export default {

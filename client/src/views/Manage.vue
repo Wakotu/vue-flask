@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-23 09:05:22
+ * @LastEditTime: 2022-03-23 20:06:49
  * @Description: 管理页面
 -->
 
@@ -38,8 +38,8 @@
                                 <i :style="iconStyle" class="el-icon-plus"></i>单体水军检测
                             </template>
                             <el-menu-item index="/single/userReco">特定用户识别</el-menu-item>
-                            <el-menu-item index="addGoods">水军用户列表</el-menu-item>
-                            <el-menu-item index="addGoods">水军用户画像</el-menu-item>
+                            <el-menu-item index="/single/resultList">检测结果展示</el-menu-item>
+                            <el-menu-item index="/single/userImage">水军用户画像</el-menu-item>
                         </el-submenu>
                         <!-- 子菜单 -->
                         <el-submenu index="4">

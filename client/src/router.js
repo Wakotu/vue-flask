@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-23 09:06:07
+ * @LastEditTime: 2022-03-23 19:55:24
  * @Description: 定义路由
  */
 
@@ -10,17 +10,19 @@ import VueRouter from 'vue-router';
 
 // 引入路由页面
 import NotFound from './views/NotFound.vue';
-import Login from './views/Login.vue';
-import Register from './views/Register.vue';
+import Login from './views/user/Login.vue';
+import Register from './views/user/Register.vue';
 import Manage from './views/Manage.vue';
 import Home from './views/Home.vue';
 import HotEvents from './views/HotEvents.vue';
-import UserInfo from './views/UserInfo.vue';
-import UserList from './views/UserList.vue';
-import TaskManage from './views/TaskManage.vue';
-import SpiderManage from './views/SpiderManage.vue';
-import AnalysisManage from './views/AnalysisManage.vue';
-import UserReco from './views/UserReco.vue';
+import UserInfo from './views/user/UserInfo.vue';
+import UserList from './views/user/UserList.vue';
+import TaskManage from './views/system/TaskManage.vue';
+import SpiderManage from './views/system/SpiderManage.vue';
+import AnalysisManage from './views/system/AnalysisManage.vue';
+import UserReco from './views/single/UserReco.vue';
+import ResultList from './views/single/ResultList.vue';
+import UserImage from './views/single/UserImage.vue';
 // import store from './store';
 
 import { Message } from 'element-ui';
@@ -98,6 +100,18 @@ const router = new VueRouter({
                     component: UserReco,
                     meta:['单体水军检测', '特定用户识别'],
                 },
+                {
+                    path:'/single/resultList',
+                    name:'resultList',
+                    component: ResultList,
+                    meta:['单体水军检测','检测结果展示'],
+                },
+                {
+                    path:'/single/userImage',
+                    name:'userImage',
+                    component: UserImage,
+                    meta:['单体水军检测','水军用户画像'],
+                }
             ]
         },
         // 404，要放在最后

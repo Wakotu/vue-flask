@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-21 16:41:57
- * @LastEditTime: 2022-03-22 10:37:22
+ * @LastEditTime: 2022-03-23 15:04:26
  * @Description: 分析程序监测页面
  * @Todo: 
 -->
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import Header from "../../components/Header.vue";
 
 export default {
     name: "AnalysisManage",

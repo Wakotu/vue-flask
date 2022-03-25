@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 10:21:02
- * @LastEditTime: 2022-03-17 15:11:18
+ * @LastEditTime: 2022-03-23 15:06:41
  * @Description: 登录页面
 -->
 
@@ -121,7 +121,7 @@ export default {
 .login{
     width: 100%;
     height: 100%;
-    background-image: url('../assets/bg.jpg');
+    background-image: url('../../assets/bg.jpg');
     background-size: 100% 100%;
 }
 

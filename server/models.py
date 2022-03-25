@@ -1,7 +1,7 @@
 '''
 Author: Axiuxiu
 Date: 2022-02-26 17:30:19
-LastEditTime: 2022-03-21 13:37:10
+LastEditTime: 2022-03-23 15:49:56
 Description: 定义数据库模型
 '''
 
@@ -31,6 +31,10 @@ class Section(enum.Enum):
 class Status(enum.Enum):
     run=1
     stop=0
+
+class SingleStatus(enum.Enum):
+    finish=1
+    run=0
 
 class User(db.Model):
     '''用户表'''
@@ -77,7 +81,7 @@ class User(db.Model):
     def check_pwd_hash(self,pwd):
         return check_password_hash(self.hash_pwd, pwd)
 
-
+# 系统任务
 class Task(db.Model):
     __tablename__='tasks'
 
@@ -112,4 +116,19 @@ class TaskStatus(db.Model):
     status=Column(Enum(Status), nullable=False)
 
     task=relationship('Task', backref='statuses')
-    
+
+# 用户检测任务
+class SingleTask(db.Model):
+    __tablename__='single_tasks'
+
+    id=Column(String(32), default=gen_id, primary_key=True)
+    target_user_url=Column(String(256), nullable=False)
+    name=Column(String(32),nullable=False)
+    interval=Column(Integer)
+    blog_page_cnt=Column(Integer)
+    fans_page_cnt=Column(Integer)
+    follow_page_cnt=Column(Integer)
+    status=Column(Enum(SingleStatus), default=SingleStatus.run)
+
+    def __repr__(self) -> str:
+        return self.name

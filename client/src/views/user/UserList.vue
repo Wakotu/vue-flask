@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-10 14:17:33
- * @LastEditTime: 2022-03-21 13:24:27
+ * @LastEditTime: 2022-03-23 15:06:11
  * @Description: 用户列表
  * @Todo: 实现添加功能
 -->
@@ -66,8 +66,8 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import AdminDialog from "../components/AdminDialog.vue";
+import Header from "../../components/Header.vue";
+import AdminDialog from "../../components/AdminDialog.vue";
 
 export default {
     name: "UserList",

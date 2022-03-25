@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 14:02:02
- * @LastEditTime: 2022-03-14 18:01:01
+ * @LastEditTime: 2022-03-23 15:06:52
  * @Description: 注册页面
 -->
 <template>
@@ -190,7 +190,7 @@ export default {
 .register {
     width: 100%;
     height: 100%;
-    background-image: url("../assets/bg.jpg");
+    background-image: url("../../assets/bg.jpg");
     background-size: 100% 100%;
 }
 
