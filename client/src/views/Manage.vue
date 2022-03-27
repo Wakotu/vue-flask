@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-01 14:41:47
- * @LastEditTime: 2022-03-23 20:06:49
+ * @LastEditTime: 2022-03-26 12:39:21
  * @Description: 管理页面
 -->
 
@@ -29,8 +29,8 @@
                             <template slot="title">
                                 <i :style="iconStyle" class="el-icon-warning"></i>热点事件
                             </template>
-                            <el-menu-item index="/warning/hotEvents">热点事件展示</el-menu-item>
-                            <el-menu-item index="/warning/eventAnalysis">热点事件分析</el-menu-item>
+                            <el-menu-item index="/events/hotEvents">热点事件展示</el-menu-item>
+                            <el-menu-item index="/events/eventAnalysis">热点事件分析</el-menu-item>
                         </el-submenu>
                         <!-- 子菜单 -->
                         <el-submenu index="3">

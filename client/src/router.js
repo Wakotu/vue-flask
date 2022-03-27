@@ -1,7 +1,7 @@
 /*
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:40:31
- * @LastEditTime: 2022-03-23 19:55:24
+ * @LastEditTime: 2022-03-26 12:43:37
  * @Description: 定义路由
  */
 
@@ -14,7 +14,8 @@ import Login from './views/user/Login.vue';
 import Register from './views/user/Register.vue';
 import Manage from './views/Manage.vue';
 import Home from './views/Home.vue';
-import HotEvents from './views/HotEvents.vue';
+import HotEvents from './views/events/HotEvents.vue';
+import EventAnalysis from './views/events/EventAnalysis.vue';
 import UserInfo from './views/user/UserInfo.vue';
 import UserList from './views/user/UserList.vue';
 import TaskManage from './views/system/TaskManage.vue';
@@ -23,6 +24,7 @@ import AnalysisManage from './views/system/AnalysisManage.vue';
 import UserReco from './views/single/UserReco.vue';
 import ResultList from './views/single/ResultList.vue';
 import UserImage from './views/single/UserImage.vue';
+
 // import store from './store';
 
 import { Message } from 'element-ui';
@@ -59,10 +61,16 @@ const router = new VueRouter({
                     component: Home,
                 },
                 {
-                    path: '/warning/hotEvents',
+                    path: '/events/hotEvents',
                     name: 'HotEvents',
                     component: HotEvents,
                     meta: ['热点事件预警', '热点事件展示'],
+                },
+                {
+                    path:'/events/eventAnalysis',
+                    name:'eventImage',
+                    component: EventAnalysis,
+                    meta:['热点事件预警','热点事件分析'],
                 },
                 {
                     path: '/user/userInfo',

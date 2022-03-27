@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-07 10:32:50
- * @LastEditTime: 2022-03-20 16:00:25
+ * @LastEditTime: 2022-03-27 16:42:44
  * @Description: 热点事件展示
 -->
 <template>
@@ -26,7 +26,7 @@
             <ul class="event-list">
                 <h2 class="more">查看更多</h2>
 
-                <li v-for="(item, index) in eventList" :key="index">
+                <li v-for="(item, index) in eventList" :key="item.id" @click="checkEvent(item.id)">
                     <span class="index">{{index+1}}</span>   
                     <span class="text">{{item.title}}</span>
                     <span class="heat">{{item.heat}}</span>
@@ -37,16 +37,16 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import Header from "../../components/Header.vue";
 const echarts = require("echarts");
-import "../js/china";
+import "../../js/china";
 
 export default {
     name: "HotEvents",
     components: { Header },
     data() {
         return {
-            dataList: [
+            mapData: [
                 { name: "南海诸岛", value: 0 },
                 { name: "北京", value: 2170.7 },
                 { name: "天津", value: 1559.6 },
@@ -85,30 +85,37 @@ export default {
             ],
             eventList:[
                 {
+                    id:'1',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'2',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'3',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'4',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'5',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'6',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
                 {
+                    id:'7',
                     title:'收藏！这是冬奥回带来的开学第一课',
                     heat:'72380',
                 },
@@ -174,11 +181,19 @@ export default {
                         name:'热度',
                         type:'map',
                         geoIndex:0,
-                        data: this.dataList,
+                        data: this.mapData,
                     },
                 ]
             });
         },
+        checkEvent(id){
+            this.$router.push({
+                name:'eventImage',
+                query:{
+                    id,
+                }
+            })
+        }
     },
     mounted() {
         this.mapRender();
@@ -261,8 +276,10 @@ export default {
 
 /* 地图部分 */
 .map {
-    height: calc(100% - 65px);
-    width: 650px;
+    margin-left: 20px;
+    margin-top: 30px;
+    height: 400px;
+    width: 600px;
     /* background-color: #bfa; */
     float: left;
 }
@@ -270,9 +287,7 @@ export default {
 /* 事件列表部分 */
 .event-list {
     float: left;
-    /* height: calc(100% - 65px); */
-    /* width: calc(100% - 700px); */
-    /* background-color: violet; */
+    margin-top: 40px;
     margin-left: 20px;
     padding-left: 10px;
     width: 320px;
@@ -292,7 +307,7 @@ export default {
     width: 100%;
     line-height: 20px;
     padding: 15px 0;
-    font-size: 12px;
+    font-size: 15px;
     position: relative;
 }
 
@@ -354,7 +369,7 @@ export default {
 .event-list li .heat{
     display: block;
     float: right;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-23 19:53:35
- * @LastEditTime: 2022-03-25 13:11:22
+ * @LastEditTime: 2022-03-26 12:34:18
  * @Description: 水军用户画像
  * @Todo: 
 -->
@@ -105,14 +105,108 @@ export default {
                     common: 735,
                     navy: 580,
                 },
-                emotions:{
-                    pos:20,
-                    neg:100,
-                    neu:5,
+                emotions: {
+                    pos: 20,
+                    neg: 100,
+                    neu: 5,
                 },
-                emotionTrend:[89,93,27,88,96,55,71],
+                emotionTrend: [89, 93, 27, 88, 96, 55, 71],
             },
             days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+            worddata: [
+                {
+                    name: "老婆产假",
+                    value: 15000,
+                },
+                {
+                    name: "产假",
+                    value: 10081,
+                },
+                {
+                    name: "身体不舒服",
+                    value: 9386,
+                },
+                {
+                    name: "生病",
+                    value: 7500,
+                },
+                {
+                    name: "休假休息",
+                    value: 7500,
+                },
+                {
+                    name: "亲人去世",
+                    value: 6500,
+                },
+                {
+                    name: "腹泻",
+                    value: 6500,
+                },
+                {
+                    name: "头痛",
+                    value: 6000,
+                },
+                {
+                    name: "朋友婚礼",
+                    value: 4500,
+                },
+                {
+                    name: "亲戚来了",
+                    value: 3800,
+                },
+                {
+                    name: "办理证件",
+                    value: 3000,
+                },
+                {
+                    name: "家里有事",
+                    value: 2500,
+                },
+                {
+                    name: "老婆坐月子",
+                    value: 2300,
+                },
+                {
+                    name: "急性阑尾炎",
+                    value: 2000,
+                },
+                {
+                    name: "呕吐",
+                    value: 1900,
+                },
+                {
+                    name: "感冒",
+                    value: 1800,
+                },
+                {
+                    name: "拉肚子",
+                    value: 1700,
+                },
+                {
+                    name: "小孩生病",
+                    value: 1600,
+                },
+                {
+                    name: "搬家",
+                    value: 1500,
+                },
+                {
+                    name: "工作疲惫",
+                    value: 1200,
+                },
+                {
+                    name: "喜酒",
+                    value: 1100,
+                },
+                {
+                    name: "堵车",
+                    value: 900,
+                },
+                {
+                    name: "睡过头",
+                    value: 800,
+                },
+            ],
         };
     },
     methods: {
@@ -150,7 +244,7 @@ export default {
         formatDate(m, d) {
             return (m + 1).toString() + "-" + d.toString();
         },
-        getWeek(){
+        getWeek() {
             const d = new Date();
             let year = d.getFullYear();
             let flag = this.isLeap(year);
@@ -206,12 +300,14 @@ export default {
                         type: "wordCloud",
                         shape: "circle",
                         // maskImage: maskImage,
+                        // 位置相关代码
                         left: "center",
                         top: "center",
                         width: "70%",
                         height: "80%",
                         right: null,
                         bottom: null,
+
                         sizeRange: [12, 60],
                         rotationRange: [-90, 90],
                         rotationStep: 45,
@@ -241,20 +337,15 @@ export default {
                                 shadowColor: "#333",
                             },
                         },
-                        data: [
-                            {
-                                name: "Farrah Abraham",
-                                value: 366,
-                                textStyle: {},
-                            },
-                        ],
+                        data: this.worddata,
                     },
                 ],
             }; //option结束
             myChart.setOption(option); //为echarts对象加载数据
+            console.log("render wc done");
         },
         renderFr() {
-            let week=this.getWeek();
+            let week = this.getWeek();
 
             const chart = echarts.init(document.getElementById("frequency"));
             chart.setOption({
@@ -426,10 +517,10 @@ export default {
         },
         renderEm() {
             const chart = echarts.init(document.getElementById("emotion"));
-            const colorList={
-                '积极':'#91CC75',
-                '消极':'#F56C6C',
-                '中立':'#FAC858',
+            const colorList = {
+                积极: "#91CC75",
+                消极: "#F56C6C",
+                中立: "#FAC858",
             };
             chart.setOption({
                 title: {
@@ -456,47 +547,48 @@ export default {
                 },
                 yAxis: {
                     type: "category",
-                    
                 },
                 series: [
                     {
-                        itemStyle:{
-                            normal:{
-                                color(params){
+                        itemStyle: {
+                            normal: {
+                                color(params) {
                                     // console.log(params);
                                     return colorList[params.data[0]];
-                                }
-                            }  
+                                },
+                            },
                         },
                         name: "博文数量",
                         type: "bar",
-                        barWidth:'50%',
+                        barWidth: "50%",
                     },
                 ],
             });
         },
-        renderEt(){
-            let week=this.getWeek();
-            const chart=echarts.init(document.getElementById('emotion-trend'));
+        renderEt() {
+            let week = this.getWeek();
+            const chart = echarts.init(
+                document.getElementById("emotion-trend")
+            );
             chart.setOption({
                 title: {
-                    text:'情感变化趋势',
+                    text: "情感变化趋势",
                 },
-                color:['#FF9181'],
+                color: ["#FF9181"],
                 legend: {},
                 xAxis: {
-                    type:'category',
-                    data:week,
+                    type: "category",
+                    data: week,
                 },
                 yAxis: {},
                 series: [
                     {
-                        type:'line',
-                        data:this.showData.emotionTrend,
+                        type: "line",
+                        data: this.showData.emotionTrend,
                     },
-                ]
-            })
-        }
+                ],
+            });
+        },
     },
     computed: {
         id() {
@@ -508,25 +600,25 @@ export default {
         followShow() {
             return this.formatNum(this.showData.userInfo.follow);
         },
-        emotionShow(){
-            let emotionList=[];
-            let keyMap={
-                pos:'积极',
-                neg:'消极',
-                neu:'中立',
-            }
-            for(let key in this.showData.emotions){
-                let item=[];
+        emotionShow() {
+            let emotionList = [];
+            let keyMap = {
+                pos: "积极",
+                neg: "消极",
+                neu: "中立",
+            };
+            for (let key in this.showData.emotions) {
+                let item = [];
                 item.push(keyMap[key]);
                 item.push(this.showData.emotions[key]);
                 emotionList.push(item);
             }
-            emotionList.sort((a,b)=>{
-                return a[1]-b[1];
+            emotionList.sort((a, b) => {
+                return a[1] - b[1];
             });
-            console.log(emotionList);
+            // console.log(emotionList);
             return emotionList;
-        }
+        },
     },
     mounted() {
         // console.log(this.id);
@@ -664,8 +756,7 @@ export default {
     float: left;
 }
 
-.charts li:nth-child(2n){
+.charts li:nth-child(2n) {
     margin-left: 30px;
-
 }
 </style>
