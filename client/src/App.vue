@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-26 20:39:12
- * @LastEditTime: 2022-03-23 10:17:57
+ * @LastEditTime: 2022-03-27 17:33:50
  * @Description: App
 -->
 
@@ -24,10 +24,12 @@ export default {
         const userToken = localStorage.getItem("userToken");
         const avatar_url=localStorage.getItem('avatar_url');
         const username=localStorage.getItem('username');
+        const isAdmin=localStorage.getItem('isAdmin');
         if (userToken) {
             let user = jwtDecode(userToken);
             user.avatar_url=avatar_url;
             user.username=username;
+            user.isAdmin=isAdmin;
             // 同步vuex状态
             this.$store.dispatch("setLoginState", user);
         }

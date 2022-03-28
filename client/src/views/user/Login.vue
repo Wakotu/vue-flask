@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-02-27 10:21:02
- * @LastEditTime: 2022-03-23 15:06:41
+ * @LastEditTime: 2022-03-27 17:33:18
  * @Description: 登录页面
 -->
 
@@ -90,6 +90,7 @@ export default {
                             let user=jwtDecode(userToken);
                             user.avatar_url=avatar_url;
                             user.username=username;
+                            user.isAdmin=isAdmin;
                             this.$store.dispatch('setLoginState',user);
 
                             this.$message({
