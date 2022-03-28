@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-27 09:23:39
- * @LastEditTime: 2022-03-27 10:30:45
+ * @LastEditTime: 2022-03-28 14:13:56
  * @Description: 趋势分析组件
  * @Todo: 
 -->
@@ -70,7 +70,9 @@ export default {
             return week;
         },
         renderChart() {
-            const chart = echarts.init(document.getElementById("trend-chart"));
+            const chart = echarts.init(document.getElementById("trend-chart"),null,{
+                height:300,
+            });
             let week=this.getWeek();
             chart.setOption({
                 title: {
@@ -153,7 +155,7 @@ export default {
 
 .trend-chart {
     width: 800px;
-    height: 300px;
+    height: 270px;
     margin: 0 auto;
 }
 </style>

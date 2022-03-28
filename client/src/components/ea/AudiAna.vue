@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-27 10:32:31
- * @LastEditTime: 2022-03-27 16:47:30
+ * @LastEditTime: 2022-03-28 14:35:48
  * @Description: 受众分析标签页
  * @Todo: 
 -->
@@ -144,7 +144,7 @@ export default {
                 },
                 series: [
                     {
-                        name: "新分别分布",
+                        name: "性别分布",
                         type: "pie",
                         radius: ["40%", "70%"],
                         avoidLabelOverlap: false,

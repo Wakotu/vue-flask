@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-23 19:53:35
- * @LastEditTime: 2022-03-26 12:34:18
+ * @LastEditTime: 2022-03-28 13:21:56
  * @Description: 水军用户画像
  * @Todo: 
 -->
@@ -576,6 +576,7 @@ export default {
                 },
                 color: ["#FF9181"],
                 legend: {},
+                tooltip: {},
                 xAxis: {
                     type: "category",
                     data: week,

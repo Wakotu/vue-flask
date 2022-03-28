@@ -1,7 +1,7 @@
 <!--
  * @Author: Axiuxiu
  * @Date: 2022-03-26 12:41:50
- * @LastEditTime: 2022-03-27 16:52:06
+ * @LastEditTime: 2022-03-28 14:10:11
  * @Description: 热点事件分析页面
  * @Todo: 
 -->
@@ -11,6 +11,8 @@
         <Header></Header>
 
         <div class="container">
+            <div class="event-name">#{{eventName}}</div>
+
             <el-tabs v-model="activeName">
                 <el-tab-pane label="趋势分析" name="first">
                     <TrendAna :trendData="trendData" ref="trendAna"></TrendAna>
@@ -35,6 +37,7 @@ export default {
     data() {
         return {
             activeName: "first",
+            eventName: "乌克兰局势",
             trendData: {
                 topicDisc: 10000,
                 involUsers: 10000,
@@ -92,24 +95,22 @@ export default {
         };
     },
     methods: {
-        getData(){
-
-        }
+        getData() {},
     },
     computed: {
-        id(){
+        id() {
             return this.$route.query.id;
-        }
+        },
     },
     mounted() {
         // console.log(this.id);
-        if(!this.id){
+        if (!this.id) {
             this.$message({
                 showClose: true,
-                type: 'warning',
-                message: '未传入事件信息，当前展示测试用例',
+                type: "warning",
+                message: "未传入事件信息，当前展示测试用例",
             });
-        }else{
+        } else {
             this.getData();
         }
     },
@@ -122,6 +123,12 @@ export default {
     width: 900px;
     border-radius: 5px;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
+    padding: 10px 20px 0 20px;
+}
+
+.container .event-name {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
 }
 </style>
